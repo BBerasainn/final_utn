@@ -10,12 +10,11 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const messagesEndRef = useRef(null); 
-
   const [editModal, setEditModal] = useState(false);
   const [editContact, setEditContact] = useState(null); 
-
   const [showSearch, setShowSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const searchRef = useRef(null);
 
   useEffect(() => {
     async function loadMessages() {
@@ -67,6 +66,14 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
     }
   }
 
+  useEffect(() => {
+    if (showSearch) {
+      setTimeout(() => {
+        searchRef.current?.focus();
+      }, 50);
+    }
+  }, [showSearch]);
+
 
   useEffect(() => {
     fetchContacts();
@@ -112,12 +119,12 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
 
       {showSearch && (
         <input
+          ref={searchRef}
           type="text"
           placeholder="Buscar mensajes..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           className="m-3 px-4 py-3 rounded-full bg-white border shadow-sm outline-none w-[95%]"
-          autoFocus
         />
       )}
 
