@@ -21,7 +21,7 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
     async function loadMessages() {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/contacts/${contact._id}/messages`,
+          `${import.meta.env.VITE_API_URL}/api/contacts/${contact._id}/messages`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -38,6 +38,7 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
     if (contact?._id) loadMessages();
   }, [contact]);
 
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -51,17 +52,21 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.get("http://localhost:4000/api/contacts", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/contacts`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setContacts(res.data);
     } catch (err) {
       console.error("Error al cargar contactos:", err);
     }
   }
+
 
   useEffect(() => {
     fetchContacts();
@@ -134,7 +139,7 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
             const token = localStorage.getItem("token");
 
             const res = await axios.post(
-              `http://localhost:4000/api/contacts/${contact._id}/messages`,
+              `${import.meta.env.VITE_API_URL}/api/contacts/${contact._id}/messages`,
               { text },
               {
                 headers: {
@@ -145,12 +150,12 @@ export default function ChatView({ contact, onDeletedContact, onBack }) {
 
             setMessages((prev) => [...prev, res.data]);
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-
           } catch (err) {
             console.error("Error enviando mensaje", err);
           }
         }}
       />
+
       
       <EditContactModal
         isOpen={editModal}

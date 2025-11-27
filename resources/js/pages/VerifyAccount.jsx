@@ -9,14 +9,15 @@ export default function VerifyAccount() {
   const [called, setCalled] = useState(false); 
 
   useEffect(() => {
-    if (called) return; 
+    if (called) return;
     setCalled(true);
 
     const verify = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/auth/verify/${token}`
+          `${import.meta.env.VITE_API_URL}/api/auth/verify/${token}`
         );
+
         setStatus(res.data.message || "Cuenta verificada correctamente 🎉");
         setColor("text-green-600");
       } catch (err) {
@@ -29,6 +30,7 @@ export default function VerifyAccount() {
 
     verify();
   }, [token, called]);
+
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-50">

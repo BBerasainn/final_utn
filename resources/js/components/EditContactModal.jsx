@@ -27,7 +27,7 @@ export default function EditContactModal({
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `http://localhost:4000/api/contacts/${contact._id}`,
+        `${import.meta.env.VITE_API_URL}/api/contacts/${contact._id}`,
         {
           name: editName,
           lastname: "",
@@ -48,12 +48,13 @@ export default function EditContactModal({
     }
   }
 
+
   async function handleDelete() {
     try {
       const token = localStorage.getItem("token");
 
       await axios.delete(
-        `http://localhost:4000/api/contacts/${contact._id}`,
+        `${import.meta.env.VITE_API_URL}/api/contacts/${contact._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,6 +69,7 @@ export default function EditContactModal({
       console.error(err.response?.data || err);
     }
   }
+
 
 
   function handleAvatarChange(e) {

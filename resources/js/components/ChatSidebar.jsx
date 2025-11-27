@@ -24,11 +24,14 @@ export default function ChatSidebar({ onSelectContact }) {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.get("http://localhost:4000/api/contacts", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/contacts`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setContacts(res.data);
     } catch (err) {
@@ -41,8 +44,9 @@ export default function ChatSidebar({ onSelectContact }) {
 
     try {
       const token = localStorage.getItem("token");
+
       await axios.post(
-        "http://localhost:4000/api/contacts",
+        `${import.meta.env.VITE_API_URL}/api/contacts`,
         {
           name: newContact.trim(),
           avatar: avatarPreview || null,
@@ -62,6 +66,7 @@ export default function ChatSidebar({ onSelectContact }) {
       console.error(err);
     }
   }
+
 
   const handleLogout = () => {
     logout();         

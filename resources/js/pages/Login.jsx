@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:4000/api/auth/login";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/login`;
 
 export default function Login() {
   const navigate = useNavigate();

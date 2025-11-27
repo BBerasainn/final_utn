@@ -18,15 +18,20 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/auth/register", formData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        formData
+      );
+
       setMessage(response.data.message || "Usuario creado con éxito.");
-      setTimeout(() => navigate("/"), 2000); 
+      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Error al registrarse. Intente nuevamente."
       );
     }
   };
+
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
