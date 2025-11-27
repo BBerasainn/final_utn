@@ -1,10 +1,9 @@
 import * as contactService from "../services/contactService.js";
-import * as contactRepository from "../repositories/contactRepository.js";
-import { updateContact as updateContactService } from "../services/contactService.js";
 
 export async function getContacts(req, res) {
   try {
-    const contacts = await contactService.getContacts();
+    const userId = req.user.id;
+    const contacts = await contactService.getContacts(userId);
     res.json(contacts);
   } catch (err) {
     console.error("Error en getContacts:", err);
@@ -12,19 +11,17 @@ export async function getContacts(req, res) {
   }
 }
 
-
 export async function createContact(req, res) {
   try {
-    const userId = req.user.id;  // ← viene del token gracias al authMiddleware
-
+    const userId = req.user.id;
     const { name, lastname, phone, avatar } = req.body;
 
-    const contact = await contactRepository.createContact({
+    const contact = await contactService.createContact({
       name,
       lastname,
       phone,
       avatar,
-      userId, // ← lo agregamos acá siempre
+      userId,
     });
 
     res.json(contact);
@@ -34,10 +31,13 @@ export async function createContact(req, res) {
   }
 }
 
-
 export async function updateContact(req, res) {
   try {
-    const updated = await updateContactService(req.params.id, req.body);
+    const updated = await contactService.updateContact(
+      req.params.id,
+      req.body
+    );
+
     res.json(updated);
   } catch (err) {
     res.status(500).json({ error: "Error al actualizar el contacto" });

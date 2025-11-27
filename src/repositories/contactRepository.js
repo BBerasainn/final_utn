@@ -1,16 +1,11 @@
 import Contact from "../models/Contact.js";
 
-export async function getAllContacts() {
-  return await Contact.find().sort({ createdAt: -1 });
+export async function getContactsByUser(userId) {
+  return await Contact.find({ userId }).sort({ createdAt: -1 });
 }
 
-export async function getContactById(id) {
-  return await Contact.findById(id);
-}
-
-export async function createContact(data) {
-  const contact = new Contact(data);
-  return await contact.save();
+export async function createContact({ name, lastname, phone, avatar, userId }) {
+  return await Contact.create({ name, lastname, phone, avatar, userId });
 }
 
 export async function updateContact(id, data) {
@@ -19,4 +14,8 @@ export async function updateContact(id, data) {
 
 export async function deleteContact(id) {
   return await Contact.findByIdAndDelete(id);
+}
+
+export async function getContactById(id) {
+  return await Contact.findById(id);
 }

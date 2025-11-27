@@ -1,47 +1,34 @@
-import React, { createContext, useState, useEffect } from 'react'
-import api from '../api/axios'
+import { createContext, useContext, useState, useEffect } from "react";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (token) {
-      api.get('/auth/me')
-        .then(res => setUser(res.data.user))
-        .catch(() => {
-          localStorage.removeItem('token')
-          setUser(null)
-        })
-        .finally(() => setLoading(false))
-    } else {
-      setLoading(false)
+      setUser({ token }); 
     }
-  }, [])
+  }, []);
 
-  const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password })
-    localStorage.setItem('token', res.data.token)
-    setUser(res.data.user)
-  }
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    setUser({ token });
+  };
 
   const logout = () => {
-    localStorage.removeItem('token')
-    setUser(null)
-  }
-
-  const register = async (name, email, password) => {
-    await api.post('/auth/register', { name, email, password })
-  }
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
-export default AuthContext
+export function useAuth() {
+  return useContext(AuthContext);
+}

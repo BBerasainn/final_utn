@@ -1,7 +1,7 @@
 import Message from "../models/Message.js";
 
-export async function getMessages(contactId) {
-  return await Message.find({ contactId }).sort({ createdAt: 1 });
+export async function getMessages(contactId, userId) {
+  return await Message.find({ contactId, userId }).sort({ createdAt: 1 });
 }
 
 export async function createMessage({ contactId, userId, text }) {

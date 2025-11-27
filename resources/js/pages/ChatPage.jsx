@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ChatSidebar from "../components/ChatSidebar";
 import ChatView from "../components/ChatView";
-import Release from "../components/Release";
 
 export default function ChatPage() {
   const [selectedContact, setSelectedContact] = useState(null);
@@ -64,10 +63,6 @@ export default function ChatPage() {
           </div>
         )}
       </div>
-
-      {toast && (
-        <Release message={toast} onClose={() => setToast(null)} />
-      )}
     </div>
   );
 }

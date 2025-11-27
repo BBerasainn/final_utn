@@ -1,17 +1,17 @@
 import * as contactRepository from "../repositories/contactRepository.js";
 
-export function getContacts() {
-  return contactRepository.getAllContacts();
+export async function getContacts(userId) {
+  return await contactRepository.getContactsByUser(userId);
 }
 
-export function createContact(data) {
-  return contactRepository.createContact(data);
+export async function createContact(data) {
+  return await contactRepository.createContact(data);
 }
 
-export function updateContact(id, data) {
-  return contactRepository.updateContact(id, data);
+export async function updateContact(id, data) {
+  return await contactRepository.updateContact(id, data);
 }
 
-export function deleteContact(id) {
-  return contactRepository.deleteContact(id);
+export async function deleteContact(id) {
+  return await contactRepository.deleteContact(id);
 }

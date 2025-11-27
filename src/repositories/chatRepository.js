@@ -1,8 +1,8 @@
 import Message from "../models/Message.js";
 import Contact from "../models/Contact.js";
 
-export async function getChatList() {
-  const contacts = await Contact.find().sort({ createdAt: -1 });
+export async function getChatList(userId) {
+  const contacts = await Contact.find({ userId }).sort({ createdAt: -1 });
 
   const chatsWithLastMessage = await Promise.all(
     contacts.map(async (c) => {
@@ -20,8 +20,9 @@ export async function getChatList() {
   return chatsWithLastMessage;
 }
 
-export async function getChatByContactId(contactId) {
-  const contact = await Contact.findById(contactId);
+export async function getChatByContactId(contactId, userId) {
+  const contact = await Contact.findOne({ _id: contactId, userId });
+
   if (!contact) return null;
 
   const messages = await Message.find({ contactId }).sort({ createdAt: 1 });

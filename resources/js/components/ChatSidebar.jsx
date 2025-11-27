@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import EditContactModal from "../components/EditContactModal";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ChatSidebar({ onSelectContact }) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const [newContact, setNewContact] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(null);
-
   const [editModal, setEditModal] = useState(false);
   const [editContact, setEditContact] = useState(null);
 
@@ -60,6 +63,10 @@ export default function ChatSidebar({ onSelectContact }) {
     }
   }
 
+  const handleLogout = () => {
+    logout();         
+    navigate("/");
+  };
 
   const filteredContacts = contacts.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
@@ -75,7 +82,6 @@ export default function ChatSidebar({ onSelectContact }) {
       "
     >
 
-      {/* Header */}
       <div className="
         p-4 bg-green-700/60 text-white flex justify-between items-center shadow
       ">
@@ -95,7 +101,6 @@ export default function ChatSidebar({ onSelectContact }) {
 
       </div>
 
-      {/* Search */}
       <div className="p-3 bg-white border-b">
         <input
           type="text"
@@ -110,7 +115,6 @@ export default function ChatSidebar({ onSelectContact }) {
         />
       </div>
 
-      {/* Contact list */}
       <div className="flex-1 overflow-y-auto">
         {filteredContacts.map((c) => (
           <div
@@ -154,7 +158,6 @@ export default function ChatSidebar({ onSelectContact }) {
         ))}
       </div>
 
-      {/* Modal Crear contacto */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4">
           <div className="bg-white w-80 p-5 rounded shadow-xl">
@@ -216,7 +219,6 @@ export default function ChatSidebar({ onSelectContact }) {
         </div>
       )}
 
-      {/* Modal editar contacto */}
       <EditContactModal
         isOpen={editModal}
         contact={editContact}
@@ -224,6 +226,18 @@ export default function ChatSidebar({ onSelectContact }) {
         onUpdated={fetchContacts}
         onDeleted={fetchContacts}
       />
+
+      <button
+        onClick={handleLogout}
+        className="
+          m-4 px-4 py-2 rounded-lg bg-red-600 
+          text-white font-semibold hover:bg-red-700
+          transition shadow
+        "
+      >
+        Cerrar sesión
+      </button>
+
     </div>
   );
 }
