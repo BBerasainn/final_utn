@@ -27,12 +27,10 @@ export default function MessageBubble({ message }) {
         `}
       >
 
-        {/* Texto del mensaje */}
         <p className="text-sm sm:text-base leading-snug">
           {message.text}
         </p>
 
-        {/* Hora */}
         <span
             className="
               text-[10px] sm:text-xs 

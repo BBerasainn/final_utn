@@ -16,7 +16,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // evita el refresh
+    e.preventDefault();
     try {
       const response = await axios.post("http://localhost:4000/api/auth/register", formData);
       setMessage(response.data.message || "Usuario creado con éxito.");

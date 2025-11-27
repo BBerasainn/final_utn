@@ -6,10 +6,10 @@ export default function VerifyAccount() {
   const { token } = useParams();
   const [status, setStatus] = useState("Verificando cuenta...");
   const [color, setColor] = useState("text-blue-600");
-  const [called, setCalled] = useState(false); // para evitar llamadas dobles
+  const [called, setCalled] = useState(false); 
 
   useEffect(() => {
-    if (called) return; // si ya llamamos una vez, no volvemos a llamar
+    if (called) return; 
     setCalled(true);
 
     const verify = async () => {
