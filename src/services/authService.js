@@ -18,10 +18,17 @@ export async function register({ name, email, password }) {
   });
 
   const token = createJWT({ userId: user._id });
-
   await sendVerificationEmail(user, token);
 
-  return user;
+  return {
+    message: "Registro exitoso, revisá tu email para activar tu cuenta",
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified
+    }
+  };
 }
 
 export async function login({ email, password }) {
@@ -31,7 +38,8 @@ export async function login({ email, password }) {
   const match = await comparePassword(password, user.password);
   if (!match) throw new Error("Credenciales inválidas");
 
-  if (!user.isVerified) throw new Error("Debes verificar tu cuenta antes de ingresar");
+  if (!user.isVerified)
+    throw new Error("Debes verificar tu cuenta antes de ingresar");
 
   const token = createJWT({ userId: user._id });
 

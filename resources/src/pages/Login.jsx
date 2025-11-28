@@ -2,7 +2,21 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/login`;
 const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/login`;
+
+console.log("🔵 PORT:", import.meta.env.PORT);
+console.log("🔵 DB_URI:", import.meta.env.DB_URI);
+console.log("🔵 JWT_SECRET:", import.meta.env.JWT_SECRET);
+console.log("🔵 FRONTEND_URL:", import.meta.env.FRONTEND_URL);
+
+console.log("🟣 SMTP_HOST:", import.meta.env.SMTP_HOST);
+console.log("🟣 SMTP_USER:", import.meta.env.SMTP_USER);
+
+console.log("🟠 OPENAI_API_KEY:", import.meta.env.OPENAI_API_KEY);
+
+console.log("🟢 VITE_API_URL:", import.meta.env.VITE_API_URL);
+
 
 export default function Login() {
   const navigate = useNavigate();

@@ -13,7 +13,7 @@ export async function getUserById(id) {
 }
 
 export async function markAsVerified(id) {
-  return await User.findByIdAndUpdate(id, { verified: true }, { new: true });
+  return await User.findByIdAndUpdate(id, { isVerified: true }, { new: true });
 }
 
 export async function updateUser(id, data) {

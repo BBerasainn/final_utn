@@ -1,26 +1,28 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-dotenv.config(); 
+dotenv.config();
 
+// Transporter GMAIL ✔
 export const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
+  host: process.env.SMTP_HOST,            
+  port: Number(process.env.SMTP_PORT),     
+  secure: true,                            
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
+    user: process.env.SMTP_USER,          
+    pass: process.env.SMTP_PASS            
   },
 });
 
 export async function sendEmail(to, subject, html) {
   try {
     await transporter.sendMail({
-      from: `"UTN App" <${process.env.EMAIL_USER}>`,
+      from: `"UTN App" <${process.env.SMTP_USER}>`, 
       to,
       subject,
       html,
     });
 
-    console.log("Email enviado a:", to);
+    console.log("📨 Email enviado a:", to);
   } catch (err) {
     console.error("❌ Error enviando email:", err);
   }
